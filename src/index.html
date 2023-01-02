@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Audio Visual Example</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: black;
+      }
+
+      #container {
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      canvas {
+        width: 100%;
+        height: 100%;
+        margin-top: 20px;
+      }
+
+      audio {
+        display: block;
+        margin: 20px auto 0;
+        width: 250px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <audio
+        src="/assets/mixkit-casino-bling-achievement-2067.wav"
+        controls
+      ></audio>
+      <canvas></canvas>
+    </div>
+
+    <script>
+      const canvas = document.querySelector("canvas");
+      const context = canvas.getContext("2d");
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const audio = document.querySelector("audio");
+      audio.addEventListener("playing", (evt) => {
+        const audioContext = new AudioContext();
+        const audioSource = audioContext.createMediaElementSource(evt.target);
+        const analyser = audioContext.createAnalyser();
+        audioSource.connect(analyser);
+        analyser.connect(audioContext.destination);
+        analyser.fftSize = 64;
+        // analyser.fftSize = 128;
+        // analyser.fftSize = 256;
+        // analyser.fftSize = 512;
+        // analyser.fftSize = 1024;
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+        const barWidth = canvas.width / bufferLength;
+        let barHeight;
+        let x;
+
+        // const animate = () => {
+        //   context.clearRect(0, 0, canvas.width, canvas.height);
+        //   context.fillStyle = "white";
+        //   analyser.getByteFrequencyData(dataArray);
+        //   x = 0;
+        //   for (let i = 0; i < bufferLength; i++) {
+        //     barHeight = dataArray[i] * 1;
+        //     context.fillStyle = "white";
+        //     context.fillRect(x, canvas.height / 2 - barHeight - 3, barWidth / 2 - 5, barHeight);
+        //     x += barWidth / 2;
+        //   }
+        //   requestAnimationFrame(animate)
+        // }
+
+        // const animate = () => {
+        //   context.clearRect(0, 0, canvas.width, canvas.height);
+        //   context.fillStyle = "white";
+        //   analyser.getByteFrequencyData(dataArray);
+        //   x = 0;
+        //   for (let i = 0; i < bufferLength; i++) {
+        //     barHeight = dataArray[bufferLength - i] * 1;
+        //     context.fillStyle = "white";
+        //     context.fillRect(x, canvas.height / 2 - barHeight - 3, barWidth / 2 - 5, barHeight);
+        //     x += barWidth / 2;
+        //   }
+        //   requestAnimationFrame(animate)
+        // }
+
+        // const animate = () => {
+        //   context.clearRect(0, 0, canvas.width, canvas.height);
+        //   context.fillStyle = "white";
+        //   analyser.getByteFrequencyData(dataArray);
+        //   x = 0;
+        //   for (let i = 0; i < bufferLength; i++) {
+        //     barHeight = dataArray[bufferLength - i] * 1;
+        //     context.fillStyle = "white";
+        //     context.fillRect(x, canvas.height / 2 - barHeight - 3, barWidth / 2 - 5, barHeight);
+        //     x += barWidth / 2;
+        //   }
+        //   for (let i = 0; i < bufferLength; i++) {
+        //     barHeight = dataArray[i] * 1;
+        //     context.fillStyle = "white";
+        //     context.fillRect(x, canvas.height / 2 - barHeight - 3, barWidth / 2 - 5, barHeight);
+        //     x += barWidth / 2;
+        //   }
+        //   requestAnimationFrame(animate)
+        // }
+
+        const animate = () => {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          context.fillStyle = "white";
+          analyser.getByteFrequencyData(dataArray);
+          x = 0;
+          for (let i = 0; i < bufferLength; i++) {
+            barHeight = dataArray[bufferLength - i] * 1;
+            context.fillStyle = "white";
+            context.fillRect(
+              x,
+              canvas.height / 2 - barHeight - 3,
+              barWidth / 2 - 5,
+              barHeight
+            );
+            x += barWidth / 2;
+          }
+          for (let i = 0; i < bufferLength; i++) {
+            barHeight = dataArray[i] * 1;
+            context.fillStyle = "white";
+            context.fillRect(
+              x,
+              canvas.height / 2 - barHeight - 3,
+              barWidth / 2 - 5,
+              barHeight
+            );
+            x += barWidth / 2;
+          }
+          x = 0;
+          for (let i = 0; i < bufferLength; i++) {
+            barHeight = dataArray[bufferLength - i] * 1;
+            context.fillStyle = "white";
+            context.fillRect(
+              x,
+              canvas.height / 2 + 3,
+              barWidth / 2 - 5,
+              barHeight
+            );
+            x += barWidth / 2;
+          }
+          for (let i = 0; i < bufferLength; i++) {
+            barHeight = dataArray[i] * 1;
+            context.fillStyle = "white";
+            context.fillRect(
+              x,
+              canvas.height / 2 + 3,
+              barWidth / 2 - 5,
+              barHeight
+            );
+            x += barWidth / 2;
+          }
+          requestAnimationFrame(animate);
+        };
+        animate();
+      });
+    </script>
+  </body>
+</html>

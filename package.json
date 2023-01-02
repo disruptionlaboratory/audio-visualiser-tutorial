@@ -1,0 +1,23 @@
+{
+  "name": "audio-visualiser-tutorial",
+  "version": "1.0.0",
+  "description": "Learn how to create your own audio visualiser",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd src && http-server -c-1 -p 8282 && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:disruptionlaboratory/audio-visualiser-tutorial.git"
+  },
+  "author": "alatham@disruptionlaboratory.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/disruptionlaboratory/audio-visualiser-tutorial/issues"
+  },
+  "homepage": "https://github.com/disruptionlaboratory/audio-visualiser-tutorial#readme",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "prettier": "2.8.1"
+  }
+}
